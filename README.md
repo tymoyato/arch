@@ -1,4 +1,4 @@
-# pim
+# arch
 
 Personal Arch Linux installation and setup scripts.
 
