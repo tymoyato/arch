@@ -1,0 +1,186 @@
+{
+    "app_config": {
+        "audio_config": {
+            "audio": "pipewire"
+        },
+        "bluetooth_config": {
+            "enabled": false
+        }
+    },
+    "archinstall-language": "English",
+    "auth_config": {},
+    "bootloader_config": {
+        "bootloader": "Grub",
+        "removable": true,
+        "uki": false
+    },
+    "custom_commands": [],
+    "disk_config": {
+        "btrfs_options": {
+            "snapshot_config": null
+        },
+        "config_type": "default_layout",
+        "device_modifications": [
+            {
+                "device": "/dev/sda",
+                "partitions": [
+                    {
+                        "btrfs": [],
+                        "dev_path": null,
+                        "flags": [
+                            "boot",
+                            "esp"
+                        ],
+                        "fs_type": "fat32",
+                        "mount_options": [],
+                        "mountpoint": "/boot",
+                        "obj_id": "de319b61-d35f-405b-924d-a2b17cef1508",
+                        "size": {
+                            "sector_size": {
+                                "unit": "B",
+                                "value": 512
+                            },
+                            "unit": "GiB",
+                            "value": 1
+                        },
+                        "start": {
+                            "sector_size": {
+                                "unit": "B",
+                                "value": 512
+                            },
+                            "unit": "MiB",
+                            "value": 1
+                        },
+                        "status": "create",
+                        "type": "primary"
+                    },
+                    {
+                        "btrfs": [
+                            {
+                                "mountpoint": "/",
+                                "name": "@"
+                            },
+                            {
+                                "mountpoint": "/home",
+                                "name": "@home"
+                            },
+                            {
+                                "mountpoint": "/var/log",
+                                "name": "@log"
+                            },
+                            {
+                                "mountpoint": "/var/cache/pacman/pkg",
+                                "name": "@pkg"
+                            }
+                        ],
+                        "dev_path": null,
+                        "flags": [],
+                        "fs_type": "btrfs",
+                        "mount_options": [
+                            "compress=zstd"
+                        ],
+                        "mountpoint": null,
+                        "obj_id": "9e47bcd7-8a6d-4b56-9d10-1af93dd93a8c",
+                        "size": {
+                            "sector_size": {
+                                "unit": "B",
+                                "value": 512
+                            },
+                            "unit": "B",
+                            "value": 999128301568
+                        },
+                        "start": {
+                            "sector_size": {
+                                "unit": "B",
+                                "value": 512
+                            },
+                            "unit": "B",
+                            "value": 1074790400
+                        },
+                        "status": "create",
+                        "type": "primary"
+                    }
+                ],
+                "wipe": true
+            }
+        ]
+    },
+    "hostname": "archlinux",
+    "kernels": [
+        "linux"
+    ],
+    "locale_config": {
+        "kb_layout": "us",
+        "sys_enc": "UTF-8",
+        "sys_lang": "en_US.UTF-8"
+    },
+    "mirror_config": {
+        "custom_repositories": [],
+        "custom_servers": [],
+        "mirror_regions": {
+            "France": [
+                "http://mir.archlinux.fr/$repo/os/$arch",
+                "http://archlinux.mirrors.ovh.net/archlinux/$repo/os/$arch",
+                "https://archlinux.mirrors.ovh.net/archlinux/$repo/os/$arch",
+                "http://mirror.archlinux.ikoula.com/archlinux/$repo/os/$arch",
+                "http://arch.yourlabs.org/$repo/os/$arch",
+                "https://arch.yourlabs.org/$repo/os/$arch",
+                "http://mirror.lastmikoi.net/archlinux/$repo/os/$arch",
+                "http://ftp.u-strasbg.fr/linux/distributions/archlinux/$repo/os/$arch",
+                "http://archlinux.mailtunnel.eu/$repo/os/$arch",
+                "https://archlinux.mailtunnel.eu/$repo/os/$arch",
+                "https://mirror.wormhole.eu/archlinux/$repo/os/$arch",
+                "http://fr.mirrors.cicku.me/archlinux/$repo/os/$arch",
+                "https://fr.mirrors.cicku.me/archlinux/$repo/os/$arch",
+                "https://mirror.thekinrar.fr/archlinux/$repo/os/$arch",
+                "http://mirror.oldsql.cc/archlinux/$repo/os/$arch",
+                "https://mirror.oldsql.cc/archlinux/$repo/os/$arch",
+                "http://mirror.cyberbits.eu/archlinux/$repo/os/$arch",
+                "https://mirror.cyberbits.eu/archlinux/$repo/os/$arch",
+                "https://mirrors.eric.ovh/arch/$repo/os/$arch",
+                "https://mirrors.jtremesay.org/archlinux/$repo/os/$arch",
+                "http://archlinux.datagr.am/$repo/os/$arch",
+                "http://mirror.bakertelekom.fr/Arch/$repo/os/$arch",
+                "https://mirror.bakertelekom.fr/Arch/$repo/os/$arch",
+                "http://mirror.theo546.fr/archlinux/$repo/os/$arch",
+                "https://mirror.theo546.fr/archlinux/$repo/os/$arch",
+                "http://archmirror.hogwarts.fr/$repo/os/$arch",
+                "https://archmirror.hogwarts.fr/$repo/os/$arch",
+                "http://mirror.its-tps.fr/archlinux/$repo/os/$arch",
+                "https://mirror.its-tps.fr/archlinux/$repo/os/$arch",
+                "http://mirror.rznet.fr/archlinux/$repo/os/$arch",
+                "https://mirror.rznet.fr/archlinux/$repo/os/$arch",
+                "http://arch.syxpi.fr/arch/$repo/os/$arch",
+                "https://arch.syxpi.fr/arch/$repo/os/$arch",
+                "https://elda.asgardius.company/archlinux/$repo/os/$arch",
+                "http://f.matthieul.dev/mirror/archlinux/$repo/os/$arch",
+                "https://f.matthieul.dev/mirror/archlinux/$repo/os/$arch",
+                "http://mirror.peeres-telecom.fr/archlinux/$repo/os/$arch",
+                "https://mirror.peeres-telecom.fr/archlinux/$repo/os/$arch",
+                "http://mirror.trap.moe/archlinux/$repo/os/$arch",
+                "https://mirror.trap.moe/archlinux/$repo/os/$arch",
+                "https://mirror.smayzy.ovh/archlinux/$repo/os/$arch",
+                "http://fr.mirror.shibe.party/archlinux/$repo/os/$arch",
+                "https://fr.mirror.shibe.party/archlinux/$repo/os/$arch",
+                "https://mirror.cosmiclinux.com/archlinux/$repo/os/$arch"
+            ]
+        },
+        "optional_repositories": []
+    },
+    "network_config": {
+        "type": "nm"
+    },
+    "ntp": true,
+    "packages": [
+    "base-devel"
+    ],
+    "parallel_downloads": 0,
+    "script": null,
+    "services": [],
+    "swap": {
+        "algorithm": "zstd",
+        "enabled": true
+    },
+    "timezone": "Europe/Paris",
+    "version": "3.0.15"
+}
