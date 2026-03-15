@@ -16,10 +16,10 @@ Three scripts meant to be run in order after booting the Arch ISO:
 
 ### 1. `install.sh` — Base system install
 
-Run from the Arch live ISO. Downloads the latest configs from this repo and launches `archinstall`.
+Run from the Arch live ISO — no need to clone the repo. Execute this directly in the live ISO shell:
 
 ```bash
-bash install.sh <decryption-password>
+bash -c "bash -i <(curl -fsSL https://raw.githubusercontent.com/tymoyato/arch/main/install.sh) <decryption-password>"
 ```
 
 What it does:
