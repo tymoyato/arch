@@ -18,7 +18,7 @@ PACKAGES=(
     noto-fonts-emoji nerd-fonts ttf-liberation ttf-dejavu alsa-utils
     playerctl pipewire pipewire-alsa pipewire-pulse pipewire-jack
     nvidia-dkms linux-headers nvidia-utils nvidia-settings xorg-xrandr rbenv ruby-build libyaml
-    nvm fisher difftastic lazydocker
+    nvm fisher difftastic lazydocker vulkan-icd-loader
 )
 
 # Packages that are likely AUR-only
