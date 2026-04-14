@@ -29,7 +29,7 @@ PACKAGES=(
     playerctl pipewire pipewire-alsa pipewire-pulse pipewire-jack
     nvidia-dkms linux-headers nvidia-utils nvidia-settings xorg-xrandr rbenv ruby-build libyaml
     nvm fisher difftastic lazydocker vlc nautilus discord pacman-contrib fastfetch dmenu
-    bluez bluez-utils feh jq bc docker speedtest-cli translate-shell sound-theme-freedesktop wget tree-sitter
+    bluez bluez-utils feh jq bc docker speedtest-cli translate-shell sound-theme-freedesktop wget tree-sitter tree-sitter-cli
 )
 
 # Packages that are likely AUR-only
