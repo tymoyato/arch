@@ -2,8 +2,8 @@
 
 # Arch Linux Package Installer with Logging
 # -----------------------------------------
-# This script installs a list of packages via pacman and paru (for AUR)
-# Logs failed installations to failed_packages.log
+# Installs every package the dotfiles (github.com/tymoyato/dotfiles) rely on,
+# via pacman and paru (for AUR). Logs failed installations to failed_packages.log
 
 # Install paru (AUR helper) if not already installed
 if ! command -v paru &>/dev/null; then
@@ -16,7 +16,7 @@ if ! command -v paru &>/dev/null; then
 fi
 
 # File to log failed packages
-LOG_FILE="failed_packages.log"
+LOG_FILE="$(dirname "$(realpath "$0")")/failed_packages.log"
 : > "$LOG_FILE"  # Clear previous log
 
 # List of packages
@@ -25,47 +25,44 @@ PACKAGES=(
     shellcheck shfmt awesome rofi picom xclip flameshot xdotool fish
     eza btop atuin less bat fzf zoxide neovim ripgrep unzip go
     lazygit lxappearance xorg-xinit xorg-server kitty openssh xorg-setxkbmap
-    noto-fonts-emoji nerd-fonts ttf-liberation ttf-dejavu alsa-utils
+    noto-fonts-emoji ttf-jetbrains-mono-nerd ttf-meslo-nerd ttf-nerd-fonts-symbols-mono
+    ttf-liberation ttf-dejavu alsa-utils
     playerctl pipewire pipewire-alsa pipewire-pulse pipewire-jack
-    nvidia-dkms linux-headers nvidia-utils nvidia-settings xorg-xrandr rbenv ruby-build libyaml
+    xorg-xrandr rbenv ruby-build libyaml
     nvm fisher difftastic lazydocker vlc nautilus discord pacman-contrib fastfetch dmenu
     bluez bluez-utils feh jq bc docker speedtest-cli translate-shell sound-theme-freedesktop wget tree-sitter tree-sitter-cli
+    tmux fd direnv git-delta github-cli libnotify ddcutil i2c-tools python rofimoji zed obsidian
 )
 
-# Packages that are likely AUR-only
-AUR_PACKAGES=("brave-browser" "light" "bsdmainutils" "i3lock-fancy" "greenclip" "rofimoji" "ttf-nerd-fonts-symbols-mono")
+# NVIDIA driver only on machines with an NVIDIA GPU (PCI vendor 0x10de).
+# ponytail: nvidia-open covers Turing (GTX 16xx / RTX 20xx) and newer; older cards need AUR nvidia-580xx-dkms
+if grep -qs 0x10de /sys/bus/pci/devices/*/vendor; then
+    PACKAGES+=(nvidia-open-dkms linux-headers nvidia-utils nvidia-settings)
+fi
 
-# Function to install packages via pacman
-install_pacman_package() {
-    local pkg="$1"
-    if ! sudo pacman -S --noconfirm --needed "$pkg"; then
-        echo "$pkg" >> "$LOG_FILE"
-        echo "[FAILED] $pkg"
-    else
-        echo "[INSTALLED] $pkg"
-    fi
+# AUR-only packages
+# shellcheck disable=SC2034  # used via nameref in install_all
+AUR_PACKAGES=(brave-bin light bsdmainutils betterlockscreen greenclip sesh-bin bruno-bin)
+
+# Install a whole list in one transaction; if that fails, retry one by one
+# so a single bad package doesn't block the rest and gets logged.
+# Usage: install_all <array-name> <installer...>
+install_all() {
+    local -n list=$1
+    shift
+    "$@" -S --noconfirm --needed "${list[@]}" && return
+    for pkg in "${list[@]}"; do
+        if "$@" -S --noconfirm --needed "$pkg"; then
+            echo "[INSTALLED] $pkg"
+        else
+            echo "$pkg" >> "$LOG_FILE"
+            echo "[FAILED] $pkg"
+        fi
+    done
 }
 
-# Function to install packages via paru (AUR)
-install_aur_package() {
-    local pkg="$1"
-    if ! paru -S --noconfirm --needed "$pkg"; then
-        echo "$pkg" >> "$LOG_FILE"
-        echo "[FAILED] $pkg"
-    else
-        echo "[INSTALLED] $pkg"
-    fi
-}
-
-# Main installation loop
-for pkg in "${PACKAGES[@]}"; do
-    install_pacman_package "$pkg"
-done
-
-# Install AUR-only packages
-for pkg in "${AUR_PACKAGES[@]}"; do
-    install_aur_package "$pkg"
-done
+install_all PACKAGES sudo pacman
+install_all AUR_PACKAGES paru
 
 echo "Installation complete!"
 if [[ -s "$LOG_FILE" ]]; then
@@ -82,6 +79,20 @@ echo "[SET] fstrim.timer enabled"
 sudo systemctl enable paccache.timer
 echo "[SET] paccache.timer enabled"
 
+# Docker daemon + run docker without sudo (awesome docker widgets poll it)
+sudo systemctl enable docker.service
+sudo usermod -aG docker "$USER"
+echo "[SET] docker enabled, $USER added to docker group"
+
+# Bluetooth (rofi bluetooth script)
+sudo systemctl enable bluetooth.service
+echo "[SET] bluetooth enabled"
+
+# DDC/CI monitor brightness (awesome brightness widget uses ddcutil)
+echo i2c-dev | sudo tee /etc/modules-load.d/i2c-dev.conf
+sudo usermod -aG i2c "$USER"
+echo "[SET] i2c-dev loaded at boot, $USER added to i2c group"
+
 # Lower swappiness for better performance with enough RAM
 echo "vm.swappiness=10" | sudo tee /etc/sysctl.d/99-swappiness.conf
 echo "[SET] vm.swappiness=10"
@@ -96,8 +107,10 @@ echo "[SET] at-spi disabled"
 
 # Set fish as default shell
 if command -v fish &>/dev/null; then
-    fish_path=$(which fish)
+    fish_path=$(command -v fish)
     grep -qF "$fish_path" /etc/shells || echo "$fish_path" | sudo tee -a /etc/shells
-    sudo usermod -s "$fish_path" "$(logname)"
+    sudo usermod -s "$fish_path" "$USER"
     echo "[SET] fish as default shell"
 fi
+
+echo "Log out and back in for group changes (docker, i2c) to apply."

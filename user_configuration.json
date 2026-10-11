@@ -4,7 +4,7 @@
             "audio": "pipewire"
         },
         "bluetooth_config": {
-            "enabled": false
+            "enabled": true
         }
     },
     "archinstall-language": "English",
@@ -15,96 +15,6 @@
         "uki": false
     },
     "custom_commands": [],
-    "disk_config": {
-        "btrfs_options": {
-            "snapshot_config": null
-        },
-        "config_type": "default_layout",
-        "device_modifications": [
-            {
-                "device": "/dev/sda",
-                "partitions": [
-                    {
-                        "btrfs": [],
-                        "dev_path": null,
-                        "flags": [
-                            "boot",
-                            "esp"
-                        ],
-                        "fs_type": "fat32",
-                        "mount_options": [],
-                        "mountpoint": "/boot",
-                        "obj_id": "de319b61-d35f-405b-924d-a2b17cef1508",
-                        "size": {
-                            "sector_size": {
-                                "unit": "B",
-                                "value": 512
-                            },
-                            "unit": "GiB",
-                            "value": 1
-                        },
-                        "start": {
-                            "sector_size": {
-                                "unit": "B",
-                                "value": 512
-                            },
-                            "unit": "MiB",
-                            "value": 1
-                        },
-                        "status": "create",
-                        "type": "primary"
-                    },
-                    {
-                        "btrfs": [
-                            {
-                                "mountpoint": "/",
-                                "name": "@"
-                            },
-                            {
-                                "mountpoint": "/home",
-                                "name": "@home"
-                            },
-                            {
-                                "mountpoint": "/var/log",
-                                "name": "@log"
-                            },
-                            {
-                                "mountpoint": "/var/cache/pacman/pkg",
-                                "name": "@pkg"
-                            }
-                        ],
-                        "dev_path": null,
-                        "flags": [],
-                        "fs_type": "btrfs",
-                        "mount_options": [
-                            "compress=zstd"
-                        ],
-                        "mountpoint": null,
-                        "obj_id": "9e47bcd7-8a6d-4b56-9d10-1af93dd93a8c",
-                        "size": {
-                            "sector_size": {
-                                "unit": "B",
-                                "value": 512
-                            },
-                            "unit": "B",
-                            "value": 999128301568
-                        },
-                        "start": {
-                            "sector_size": {
-                                "unit": "B",
-                                "value": 512
-                            },
-                            "unit": "B",
-                            "value": 1074790400
-                        },
-                        "status": "create",
-                        "type": "primary"
-                    }
-                ],
-                "wipe": true
-            }
-        ]
-    },
     "hostname": "archlinux",
     "kernels": [
         "linux"
@@ -172,7 +82,7 @@
     },
     "ntp": true,
     "packages": [
-    "base-devel"
+        "base-devel"
     ],
     "parallel_downloads": 0,
     "script": null,

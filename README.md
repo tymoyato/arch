@@ -51,31 +51,19 @@ bash packages.sh
 ```
 
 What it does:
-- Installs all packages via `pacman` (or `yay` for AUR packages)
+- Installs `paru` if missing, then all packages via `pacman` / `paru` (one transaction, falls back to one-by-one on failure)
 - Logs any failures to `failed_packages.log`
 - Sets `fish` as the default shell
 
 #### Installed packages
 
-| Category | Packages |
-|----------|----------|
-| Base tools | `git`, `curl`, `mercurial`, `make`, `binutils`, `gcc`, `bison` |
-| Shell | `fish`, `atuin`, `fzf`, `zoxide`, `less`, `bat`, `eza` |
-| WM / X | `awesome`, `rofi`, `picom`, `xorg-server`, `xorg-xinit`, `xorg-setxkbmap`, `xorg-xrandr` |
-| Terminal | `kitty` |
-| Editor | `neovim` |
-| Dev tools | `go`, `rbenv`, `ruby-build`, `lazygit`, `lazydocker`, `difftastic`, `ripgrep`, `shellcheck`, `shfmt` |
-| Node | `nvm`, `fisher` |
-| Fonts | `noto-fonts-emoji`, `nerd-fonts`, `ttf-liberation`, `ttf-dejavu` |
-| Audio | `pipewire`, `pipewire-alsa`, `pipewire-pulse`, `pipewire-jack`, `playerctl`, `alsa-utils` |
-| Nvidia | `nvidia-dkms`, `linux-headers`, `nvidia-utils`, `nvidia-settings` |
-| Clipboard / Screenshot | `xclip`, `flameshot` |
-| System | `wmctrl`, `xdotool`, `util-linux`, `zlib`, `libyaml`, `btop`, `unzip`, `openssh` |
-| AUR | `brave-browser`, `light`, `bsdmainutils`, `i3lock-fancy` |
+The full list lives in `packages.sh` — it covers everything the [dotfiles](https://github.com/tymoyato/dotfiles) call. NVIDIA drivers (`nvidia-open-dkms`) are only installed when an NVIDIA GPU is detected.
+
+It also enables `docker`, `bluetooth`, `fstrim.timer`, `paccache.timer`, loads `i2c-dev` (for `ddcutil` monitor brightness) and adds you to the `docker` and `i2c` groups. Log out and back in afterwards.
 
 ## Configuration
 
-- `user_configuration.json` — archinstall config: btrfs layout on `/dev/sda`, French mirrors, Grub bootloader, Pipewire audio, `Europe/Paris` timezone
+- `user_configuration.json` — archinstall config: French mirrors, Grub bootloader, Pipewire audio, Bluetooth, NetworkManager, `Europe/Paris` timezone. No disk layout on purpose: pick the target disk in the archinstall menu (*Disk configuration → Use a best-effort default partition layout → btrfs*), so the config never wipes the wrong disk on another machine.
 - `user_credentials.json` — encrypted archinstall credentials (decryption key passed to `install.sh`)
 
 ## Files
